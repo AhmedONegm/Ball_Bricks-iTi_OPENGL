@@ -1,6 +1,9 @@
-#include <SFML/Graphics.hpp>
+#include "OpenGLSFML/include/gl/glew/glew.h"
+
+#include <SFML/Window.hpp>
+#include <SFML/OpenGL.hpp>
 #include "game.h"
-#include "resource_manager.h"
+#include<iostream>
 
 // The Width of the screen
 const unsigned int SCREEN_WIDTH = 800;
@@ -8,11 +11,29 @@ const unsigned int SCREEN_WIDTH = 800;
 const unsigned int SCREEN_HEIGHT = 600;
 
 Game Breakout(SCREEN_WIDTH, SCREEN_HEIGHT);
+GLuint makeShader(const char* ShaderSourceCode, GLenum SHADER_TYPE);
 
-int main(int argc, char* argv[])
+int main()
 {
-    sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Breakout");
+    // Create a window with SFML
+    sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Breakout", sf::Style::Close);
     window.setFramerateLimit(60);
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    // Initialize GLEW
+    glewExperimental = GL_TRUE;
+    if (glewInit() != GLEW_OK)
+    {
+        std::cerr << "Failed to initialize GLEW" << std::endl;
+        return -1;
+    }
+
+    // OpenGL settings 
+    glEnable(GL_DEPTH_TEST); 
+    glDepthFunc(GL_LEQUAL); 
+    glEnable(GL_BLEND); 
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     // Initialize game
     Breakout.Init();
@@ -20,6 +41,10 @@ int main(int argc, char* argv[])
     // DeltaTime variables
     sf::Clock clock;
     float deltaTime = 0.0f;
+    
+    // Load and compile shaders
+    //Shader shader = ResourceManager::LoadShader("vertex_shader.glsl", "fragment_shader.glsl", nullptr, "sprite");
+    //shader.Use();
 
     while (window.isOpen())
     {
@@ -53,13 +78,10 @@ int main(int argc, char* argv[])
         Breakout.Update(deltaTime);
 
         // Render
-        window.clear(sf::Color::Black);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         Breakout.Render(window);
         window.display();
     }
-
-    // Delete all resources as loaded using the resource manager
-    ResourceManager::Clear();
 
     return 0;
 }
