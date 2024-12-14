@@ -16,7 +16,10 @@ public:
     Texture2D Sprite;
 
     GameObject();
-    GameObject(sf::Vector2f pos, sf::Vector2f size, Texture2D sprite, sf::Color color = sf::Color::White, sf::Vector2f velocity = sf::Vector2f(0.0f, 0.0f));
+
+    GameObject(sf::Vector2f pos, sf::Vector2f size, Texture2D sprite);
+    GameObject(sf::Vector2f pos, sf::Vector2f size, Texture2D sprite, sf::Color color);
+    GameObject(sf::Vector2f pos, sf::Vector2f size, Texture2D sprite, sf::Color color , sf::Vector2f velocity );
 
     virtual void Draw(SpriteRenderer& renderer, sf::RenderWindow& window);
 };

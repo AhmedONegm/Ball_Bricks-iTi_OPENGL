@@ -1,7 +1,7 @@
 #include "game_level.h"
+#include "resource_manager.h"
 #include <fstream>
 #include <sstream>
-#include "resource_manager.h"
 
 void GameLevel::Load(const char* file, unsigned int levelWidth, unsigned int levelHeight)
 {
@@ -59,7 +59,7 @@ void GameLevel::init(std::vector<std::vector<unsigned int>> tileData, unsigned i
             {
                 sf::Vector2f pos(unit_width * x, unit_height * y);
                 sf::Vector2f size(unit_width, unit_height);
-                GameObject obj(pos, size, ResourceManager::GetTexture("block_solid"), sf::Color(204, 204, 179)); // Equivalent to glm::vec3(0.8f, 0.8f, 0.7f)
+                GameObject obj(pos, size, ResourceManager::GetTexture("block_solid"), sf::Color(204, 204, 179));
                 obj.IsSolid = true;
                 this->Bricks.push_back(obj);
             }
@@ -67,13 +67,13 @@ void GameLevel::init(std::vector<std::vector<unsigned int>> tileData, unsigned i
             {
                 sf::Color color = sf::Color::White; // Original: white
                 if (tileData[y][x] == 2)
-                    color = sf::Color(51, 153, 255); // Equivalent to glm::vec3(0.2f, 0.6f, 1.0f)
+                    color = sf::Color(51, 153, 255);
                 else if (tileData[y][x] == 3)
-                    color = sf::Color(0, 179, 0); // Equivalent to glm::vec3(0.0f, 0.7f, 0.0f)
+                    color = sf::Color(0, 179, 0);
                 else if (tileData[y][x] == 4)
-                    color = sf::Color(204, 204, 102); // Equivalent to glm::vec3(0.8f, 0.8f, 0.4f)
+                    color = sf::Color(204, 204, 102);
                 else if (tileData[y][x] == 5)
-                    color = sf::Color(255, 128, 0); // Equivalent to glm::vec3(1.0f, 0.5f, 0.0f)
+                    color = sf::Color(255, 128, 0);
 
                 sf::Vector2f pos(unit_width * x, unit_height * y);
                 sf::Vector2f size(unit_width, unit_height);
